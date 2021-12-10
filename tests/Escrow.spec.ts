@@ -2,6 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { Program, web3 } from "@project-serum/anchor";
 import { TOKEN_PROGRAM_ID, Token } from "@solana/spl-token";
 import { assert } from "chai";
+import { Escrow } from "../target/types/escrow";
 
 const { Keypair, PublicKey, SystemProgram, Transaction, SYSVAR_RENT_PUBKEY } =
   web3;
@@ -10,7 +11,7 @@ describe("Escrow", () => {
   const provider = anchor.Provider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.Escrow as Program;
+  const program = anchor.workspace.Escrow as Program<Escrow>;
 
   let mintA: Token;
   let mintB: Token;
@@ -34,7 +35,7 @@ describe("Escrow", () => {
   it("Initialise escrow state", async () => {
     // Airdropping tokens to a payer.
     await provider.connection.confirmTransaction(
-      await provider.connection.requestAirdrop(payer.publicKey, 10000000000),
+      await provider.connection.requestAirdrop(payer.publicKey, 1e10),
       "confirmed"
     );
 
@@ -46,12 +47,12 @@ describe("Escrow", () => {
           SystemProgram.transfer({
             fromPubkey: payer.publicKey,
             toPubkey: initializerMainAccount.publicKey,
-            lamports: 1000000000,
+            lamports: 1e9,
           }),
           SystemProgram.transfer({
             fromPubkey: payer.publicKey,
             toPubkey: takerMainAccount.publicKey,
-            lamports: 1000000000,
+            lamports: 1e9,
           })
         );
         return tx;
