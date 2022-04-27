@@ -102,13 +102,14 @@ pub mod escrow {
 #[derive(Accounts)]
 #[instruction(vault_account_bump: u8, initializer_amount: u64)]
 pub struct InitializeEscrow<'info> {
+    /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(mut, signer)]
     pub initializer: AccountInfo<'info>,
     pub mint: Box<Account<'info, Mint>>,
     #[account(
         init,
         seeds = [b"token-seed".as_ref()],
-        bump = vault_account_bump,
+        bump,
         payer = initializer,
         token::mint = mint,
         token::authority = initializer,
@@ -122,7 +123,7 @@ pub struct InitializeEscrow<'info> {
     pub initializer_receive_token_account: Box<Account<'info, TokenAccount>>,
     #[account(zero)]
     pub escrow_account: Box<Account<'info, EscrowAccount>>,
-    pub system_program: AccountInfo<'info>,
+    pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
     pub token_program: Program<'info, Token>,
 }
@@ -151,10 +152,12 @@ impl<'info> InitializeEscrow<'info> {
 
 #[derive(Accounts)]
 pub struct CancelEscrow<'info> {
+    /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(mut, signer)]
     pub initializer: AccountInfo<'info>,
     #[account(mut)]
     pub vault_account: Box<Account<'info, TokenAccount>>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub vault_authority: AccountInfo<'info>,
     #[account(mut)]
     pub initializer_deposit_token_account: Box<Account<'info, TokenAccount>>,
@@ -195,6 +198,7 @@ impl<'info> CancelEscrow<'info> {
 
 #[derive(Accounts)]
 pub struct Exchange<'info> {
+    /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(signer)]
     pub taker: AccountInfo<'info>,
     #[account(mut)]
@@ -205,6 +209,7 @@ pub struct Exchange<'info> {
     pub initializer_deposit_token_account: Box<Account<'info, TokenAccount>>,
     #[account(mut)]
     pub initializer_receive_token_account: Box<Account<'info, TokenAccount>>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(mut)]
     pub initializer: AccountInfo<'info>,
     #[account(
@@ -218,7 +223,9 @@ pub struct Exchange<'info> {
     pub escrow_account: Box<Account<'info, EscrowAccount>>,
     #[account(mut)]
     pub vault_account: Box<Account<'info, TokenAccount>>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub vault_authority: AccountInfo<'info>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub token_program: AccountInfo<'info>,
 }
 
