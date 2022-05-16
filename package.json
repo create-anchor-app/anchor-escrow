@@ -1,7 +1,7 @@
 {
     "scripts": {
         "lint": "eslint '**/*.ts' --fix",
-        "test": "rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet"
+        "test": "anchor test  --provider.cluster localnet"
     },
     "dependencies": {
         "@project-serum/anchor": "^0.18.0",

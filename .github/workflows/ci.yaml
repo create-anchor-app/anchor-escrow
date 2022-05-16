@@ -1,7 +1,7 @@
 name: Tests
 on:
   push:
-    branches: [main-ci]
+    branches: [main]
   pull_request:
     branches: [master]
     types: [opened, reopened, updated, synchronize]
@@ -24,9 +24,5 @@ jobs:
         run: yarn install
       - name: Create a new Solana keypair
         run: solana-keygen new -s --no-bip39-passphrase
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - uses: actions-rs/cargo@v1
-        with:
-          command: anchor test  --provider.cluster localnet
+      - name: Run tests
+        run: yarn test
