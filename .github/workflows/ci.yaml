@@ -24,5 +24,12 @@ jobs:
         run: yarn install
       - name: Create a new Solana keypair
         run: solana-keygen new -s --no-bip39-passphrase
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features
       - name: Run tests
         run: yarn test
