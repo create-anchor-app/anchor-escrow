@@ -1,8 +1,7 @@
 {
     "scripts": {
         "lint": "eslint '**/*.ts' --fix",
-        "test": "mocha -r ts-node/register -t 10000 tests/**/*.spec.ts",
-        "pre-test": "rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet"
+        "test": "rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet"
     },
     "dependencies": {
         "@project-serum/anchor": "^0.18.0",
