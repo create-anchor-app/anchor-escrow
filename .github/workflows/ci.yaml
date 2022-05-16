@@ -28,4 +28,5 @@ jobs:
         with:
           toolchain: stable
       - uses: actions-rs/cargo@v1
-        run: rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet
+        with:
+          command: anchor test  --provider.cluster localnet
