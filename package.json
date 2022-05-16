@@ -1,7 +1,7 @@
 {
     "scripts": {
         "lint": "eslint '**/*.ts' --fix",
-        "test": "sudo chown -R $(whoami) ~/.cargo/ && rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet"
+        "test": "chown -R $(whoami) ~/.cargo/ && rustup default stable && rustup toolchain list && anchor test  --provider.cluster localnet"
     },
     "dependencies": {
         "@project-serum/anchor": "^0.18.0",
